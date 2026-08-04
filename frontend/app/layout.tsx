@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Source_Serif_4, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const display = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display",
-});
 const body = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
 });
 const mono = IBM_Plex_Mono({
@@ -19,7 +14,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CivicAI — Amtshilfe, verständlich",
+  title: "CivicAI — Behörden verstehen. Rechte kennen. Sicher handeln.",
   description:
     "KI für faire, verständliche und transparente Behördenkommunikation.",
 };
@@ -32,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body
-        className={`${display.variable} ${body.variable} ${mono.variable} font-body bg-paper text-ink antialiased`}
+        className={`${body.variable} ${mono.variable} font-body bg-canvas text-ink antialiased`}
       >
         {children}
       </body>

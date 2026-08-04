@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from "react";
-
-type Confidence = "high" | "medium" | "low";
+import {
+  Upload,
+  ArrowRight,
+  CheckCircle2,
+  FileText,
+  Sparkles,
+} from "lucide-react";
+import Sidebar from "@/components/Sidebar";
+import TrustBadge, { type Confidence } from "@/components/TrustBadge";
 
 type Answer = {
   summary: string;
@@ -11,20 +18,6 @@ type Answer = {
   confidence: Confidence;
 };
 
-const CONFIDENCE_LABEL: Record<Confidence, string> = {
-  high: "Sehr sicher",
-  medium: "Mittlere Sicherheit",
-  low: "Unsicher",
-};
-
-const CONFIDENCE_COLOR: Record<Confidence, string> = {
-  high: "bg-signal-green",
-  medium: "bg-signal-amber",
-  low: "bg-signal-red",
-};
-
-// Demo responses used when no backend is connected yet, so the deployed
-// page stays meaningfully interactive before /ask exists.
 const DEMO_CASES: { match: RegExp; answer: Answer }[] = [
   {
     match: /kontoauszug|jobcenter/i,
@@ -73,6 +66,12 @@ function getDemoAnswer(question: string): Answer {
   return hit ? hit.answer : FALLBACK_ANSWER;
 }
 
+const STATS = [
+  { value: "3", label: "offene Fristen" },
+  { value: "2", label: "analysierte Schreiben" },
+  { value: "1", label: "Antwortentwurf" },
+];
+
 export default function Home() {
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
@@ -86,7 +85,6 @@ export default function Home() {
     e.preventDefault();
     if (!question.trim()) return;
     setLoading(true);
-
     try {
       if (!apiUrl) throw new Error("no-backend-configured");
       const res = await fetch(`${apiUrl}/ask`, {
@@ -95,8 +93,7 @@ export default function Home() {
         body: JSON.stringify({ question }),
       });
       if (!res.ok) throw new Error("backend-error");
-      const data: Answer = await res.json();
-      setAnswer(data);
+      setAnswer(await res.json());
       setDemoMode(false);
     } catch {
       setAnswer(getDemoAnswer(question));
@@ -108,125 +105,340 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-14 sm:py-20">
-      <header className="mb-14 flex flex-col gap-3 border-b border-line pb-8">
-        <div className="flex items-center justify-between gap-4">
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-seal">
-            CivicAI
-          </p>
-          <p className="font-mono text-xs text-ink/50">
-            Az. CIVIC/2026/{String(resultKey + 1).padStart(3, "0")}
-          </p>
-        </div>
-        <h1 className="font-display text-3xl font-semibold leading-tight sm:text-4xl">
-          Amtshilfe, verständlich.
-        </h1>
-        <p className="max-w-xl text-sm text-ink/70">
-          Stellen Sie eine Frage zu einem Behördenschreiben. Jede Antwort
-          nennt ihre Quelle und zeigt offen, wie sicher sie ist.
-        </p>
-      </header>
+    <div className="min-h-screen bg-canvas">
+      <Sidebar />
 
-      <div className="grid gap-8 sm:grid-cols-2">
-        <section aria-labelledby="frage-heading">
-          <h2
-            id="frage-heading"
-            className="mb-3 font-display text-sm font-semibold uppercase tracking-wide text-ink/80"
-          >
-            Ihre Anfrage
-          </h2>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <label htmlFor="question" className="sr-only">
-              Ihre Frage an CivicAI
-            </label>
-            <textarea
-              id="question"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="z. B. Muss ich dem Jobcenter meine Kontoauszüge schicken?"
-              rows={6}
-              className="w-full resize-none rounded-sm border border-line bg-white/60 p-4 text-sm leading-relaxed text-ink placeholder:text-ink/40 focus:border-seal"
-            />
+      <div className="lg:pl-60">
+        <div className="mx-auto max-w-6xl px-6 py-10 sm:px-10">
+          {/* Topbar */}
+          <div className="mb-10 flex items-center justify-between">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-wide text-ink/45">
+                Demo-Übersicht
+              </p>
+              <p className="text-sm text-ink/60">Ihr persönlicher Überblick</p>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <span className="text-sm text-ink/70">
+                Willkommen, Demo-Nutzer
+              </span>
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-seal-light text-xs font-medium text-seal">
+                DN
+              </span>
+            </div>
+          </div>
 
-            <div className="rounded-sm border border-dashed border-line bg-white/30 p-4 text-xs text-ink/50">
-              PDF-Upload &amp; Fristenerkennung — Modul in Entwicklung
+          {/* Hero */}
+          <div className="mb-10 grid gap-6 lg:grid-cols-[1fr_280px]">
+            <div>
+              <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-seal">
+                CivicAI · Klarheit im Alltag
+              </p>
+              <h1 className="mb-4 max-w-xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-[2.75rem]">
+                Behörden verstehen. Rechte kennen. Sicher handeln.
+              </h1>
+              <p className="mb-6 max-w-md text-sm leading-relaxed text-ink/65">
+                CivicAI hilft Ihnen, offizielle Schreiben verständlich
+                einzuordnen und die nächsten Schritte vorzubereiten. Ruhig,
+                transparent und in klarer Sprache.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#brief-analysieren"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-seal px-4 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                >
+                  Brief analysieren
+                  <ArrowRight size={15} />
+                </a>
+                <a
+                  href="#rechte-coach"
+                  className="inline-flex items-center rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-ink hover:bg-seal-light"
+                >
+                  Frage stellen
+                </a>
+              </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={loading || !question.trim()}
-              className="self-start rounded-sm bg-seal px-5 py-2.5 text-sm font-medium text-paper transition-opacity hover:opacity-90 disabled:opacity-40"
-            >
-              {loading ? "Wird geprüft …" : "Frage stellen"}
-            </button>
-          </form>
-        </section>
-
-        <section aria-labelledby="antwort-heading" aria-live="polite">
-          <h2
-            id="antwort-heading"
-            className="mb-3 font-display text-sm font-semibold uppercase tracking-wide text-ink/80"
-          >
-            Antwort
-          </h2>
-
-          {!answer && (
-            <div className="flex h-full min-h-[220px] items-center rounded-sm border border-line bg-white/30 p-6 text-sm text-ink/50">
-              Stellen Sie links eine Frage — die Antwort erscheint hier mit
-              Quelle und Vertrauens-Ampel.
+            <div className="rounded-xl border border-border bg-surface p-5 shadow-card">
+              <p className="mb-3 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                Ihr nächster Schritt
+              </p>
+              <p className="mb-3 text-sm font-semibold">
+                Ein Schreiben einordnen
+              </p>
+              <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <FileText size={16} />
+              </div>
+              <p className="mb-3 text-xs leading-relaxed text-ink/60">
+                PDF, DOCX oder Bild auswählen. Die Demo zeigt anschließend
+                eine Beispielanalyse.
+              </p>
+              <a
+                href="#demo-auswertung"
+                className="text-xs font-medium text-seal underline underline-offset-2"
+              >
+                Demo-Analyse öffnen
+              </a>
             </div>
-          )}
+          </div>
 
-          {answer && (
-            <div
-              key={resultKey}
-              className="rounded-sm border border-line bg-white/60 p-6"
-            >
-              <div className="mb-4 flex items-center gap-3">
-                <span
-                  className={`inline-flex h-9 w-9 shrink-0 animate-stamp items-center justify-center rounded-full border-2 border-ink/20 ${CONFIDENCE_COLOR[answer.confidence]}`}
-                  aria-hidden="true"
-                />
-                <p className="font-mono text-xs uppercase tracking-wide text-ink/70">
-                  {CONFIDENCE_LABEL[answer.confidence]}
+          {/* Stats */}
+          <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {STATS.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-xl border border-border bg-surface p-5 shadow-card"
+              >
+                <p className="text-3xl font-bold">{s.value}</p>
+                <p className="text-sm text-ink/55">{s.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Brief analysieren */}
+          <section id="brief-analysieren" className="mb-4 scroll-mt-8">
+            <p className="mb-1 font-mono text-xs uppercase tracking-wide text-seal">
+              01 · Brief analysieren
+            </p>
+            <h2 className="mb-1 text-2xl font-bold">
+              Was steht in Ihrem Schreiben?
+            </h2>
+            <p className="mb-5 text-sm text-ink/60">
+              Laden Sie ein Dokument hoch oder öffnen Sie die transparente
+              Beispielanalyse.
+            </p>
+          </section>
+
+          <div className="mb-12 grid gap-5 sm:grid-cols-2">
+            <div className="flex flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-border bg-surface px-6 py-12 text-center">
+              <span className="mb-1 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <Upload size={18} />
+              </span>
+              <p className="text-sm font-medium">Dokument auswählen</p>
+              <p className="max-w-[220px] text-xs text-ink/50">
+                PDF-Upload ist noch nicht angebunden — dieses Feld ist eine
+                Vorschau des geplanten Moduls.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border bg-surface p-5 shadow-card">
+              <p className="mb-2 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                Demo-Eingang
+              </p>
+              <p className="mb-1 text-sm font-semibold">Jobcenter Musterstadt</p>
+              <p className="mb-4 text-xs text-ink/55">
+                Bescheid zur Prüfung der Mitwirkung · Beispiel
+              </p>
+              <div className="rounded-lg bg-signal-amber-light px-3 py-2.5 text-xs text-signal-amber">
+                <span className="font-semibold">Demo-Analyse — </span>
+                diese Inhalte sind beispielhaft und ersetzen keine Prüfung
+                Ihres konkreten Falls.
+              </div>
+            </div>
+          </div>
+
+          {/* Demo Auswertung */}
+          <section id="demo-auswertung" className="mb-14 scroll-mt-8">
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <p className="mb-1 font-mono text-xs uppercase tracking-wide text-ink/45">
+                  Demo-Auswertung
                 </p>
+                <h2 className="text-2xl font-bold">
+                  Ein Schreiben, verständlich erklärt
+                </h2>
+              </div>
+              <TrustBadge confidence="medium" />
+            </div>
+
+            <div className="rounded-xl border border-border bg-surface shadow-card">
+              <div className="border-b border-border bg-seal-light/60 px-6 py-4">
+                <p className="font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                  Behörde
+                </p>
+                <p className="text-sm font-semibold">Jobcenter Musterstadt</p>
               </div>
 
-              {demoMode && (
-                <p className="mb-4 rounded-sm bg-signal-amber/10 px-3 py-2 text-xs text-signal-amber">
-                  Demo-Modus — noch kein Backend verbunden. Dies ist eine
-                  Beispielantwort.
+              <div className="grid gap-6 border-b border-border px-6 py-5 sm:grid-cols-2">
+                <div>
+                  <p className="mb-1 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                    Betreff
+                  </p>
+                  <p className="text-sm">Aufforderung zur Mitwirkung</p>
+                </div>
+                <div>
+                  <p className="mb-1 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                    Frist
+                  </p>
+                  <p className="text-sm font-medium text-signal-amber">
+                    30.04.2026
+                  </p>
+                </div>
+                <div>
+                  <p className="mb-1 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                    Benötigte Unterlagen
+                  </p>
+                  <p className="text-sm">Kontoauszüge, Mietnachweis</p>
+                </div>
+                <div>
+                  <p className="mb-1 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                    Mögliche Rechtsgrundlage
+                  </p>
+                  <p className="text-sm">§ 60 SGB I</p>
+                </div>
+              </div>
+
+              <div className="space-y-4 px-6 py-5">
+                <div>
+                  <p className="mb-1 text-sm font-semibold">
+                    Zusammenfassung in einfacher Sprache
+                  </p>
+                  <p className="text-sm leading-relaxed text-ink/70">
+                    Die Behörde bittet Sie, bestimmte Unterlagen
+                    nachzureichen. Reagieren Sie innerhalb der genannten
+                    Frist, oder erklären Sie frühzeitig, warum Sie mehr Zeit
+                    benötigen. Bewahren Sie eine Kopie Ihrer Antwort auf.
+                  </p>
+                </div>
+                <div>
+                  <p className="mb-1 text-sm font-semibold">
+                    Wenn Sie nicht reagieren
+                  </p>
+                  <p className="text-sm leading-relaxed text-ink/70">
+                    Die Behörde kann auf Grundlage der vorhandenen
+                    Informationen entscheiden. Welche Folgen das im
+                    Einzelfall hat, klärt am zuverlässigsten eine
+                    Beratungsstelle.
+                  </p>
+                </div>
+                <div className="rounded-lg bg-signal-amber-light px-4 py-3 text-xs leading-relaxed text-signal-amber">
+                  <span className="font-semibold">Hinweis zur Sicherheit — </span>
+                  die Demo erkennt Muster, prüft aber nicht Ihren Einzelfall.
+                  Bei dringenden oder komplexen Fragen wenden Sie sich an
+                  eine qualifizierte Beratungsstelle.
+                </div>
+              </div>
+
+              <div className="border-t border-border px-6 py-5">
+                <p className="mb-3 text-sm font-semibold">Nächste Schritte</p>
+                <ul className="space-y-2">
+                  {[
+                    "Frist im Kalender notieren und Originalschreiben aufbewahren",
+                    "Verlangte Unterlagen und mögliche Lücken zusammentragen",
+                    "Bei Bedarf eine Fristverlängerung schriftlich anfragen",
+                  ].map((step) => (
+                    <li
+                      key={step}
+                      className="flex items-start gap-2 text-sm text-ink/75"
+                    >
+                      <CheckCircle2
+                        size={16}
+                        className="mt-0.5 shrink-0 text-signal-green"
+                      />
+                      {step}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* Rechte-Coach — the working part */}
+          <section id="rechte-coach" className="mb-4 scroll-mt-8">
+            <p className="mb-1 font-mono text-xs uppercase tracking-wide text-seal">
+              02 · Rechte-Coach
+            </p>
+            <h2 className="mb-1 text-2xl font-bold">
+              Eine Frage. Ein klarer nächster Schritt.
+            </h2>
+            <p className="mb-5 flex items-center gap-1.5 text-sm text-ink/60">
+              <Sparkles size={14} className="text-seal" />
+              Dieses Modul ist bereits funktionsfähig — probieren Sie es aus.
+            </p>
+          </section>
+
+          <div className="mb-16 grid gap-5 sm:grid-cols-2">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-3 rounded-xl border border-border bg-surface p-5 shadow-card"
+            >
+              <label htmlFor="question" className="sr-only">
+                Ihre Frage an CivicAI
+              </label>
+              <textarea
+                id="question"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="z. B. Muss ich dem Jobcenter meine Kontoauszüge schicken?"
+                rows={5}
+                className="w-full resize-none rounded-lg border border-border bg-canvas/40 p-3.5 text-sm leading-relaxed placeholder:text-ink/40 focus:border-seal"
+              />
+              <button
+                type="submit"
+                disabled={loading || !question.trim()}
+                className="self-start rounded-lg bg-seal px-4 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-40"
+              >
+                {loading ? "Wird geprüft …" : "Frage stellen"}
+              </button>
+            </form>
+
+            <div
+              aria-live="polite"
+              className="rounded-xl border border-border bg-surface p-5 shadow-card"
+            >
+              {!answer && (
+                <p className="flex h-full min-h-[160px] items-center text-sm text-ink/45">
+                  Stellen Sie links eine Frage — die Antwort erscheint hier
+                  mit Quelle und Vertrauens-Ampel.
                 </p>
               )}
-
-              <p className="mb-4 text-sm leading-relaxed text-ink">
-                {answer.summary}
-              </p>
-
-              <p className="mb-1 font-mono text-xs uppercase tracking-wide text-ink/50">
-                Rechtliche Grundlage
-              </p>
-              <p className="mb-4 text-sm text-ink/80">{answer.legalBasis}</p>
-
-              <p className="mb-1 font-mono text-xs uppercase tracking-wide text-ink/50">
-                Nächste Schritte
-              </p>
-              <ul className="list-inside list-disc text-sm text-ink/80">
-                {answer.nextSteps.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ul>
+              {answer && (
+                <div key={resultKey}>
+                  <div className="mb-3">
+                    <TrustBadge confidence={answer.confidence} animate />
+                  </div>
+                  {demoMode && (
+                    <p className="mb-3 rounded-lg bg-signal-amber-light px-3 py-2 text-xs text-signal-amber">
+                      Demo-Modus — noch kein Backend verbunden.
+                    </p>
+                  )}
+                  <p className="mb-3 text-sm leading-relaxed text-ink/80">
+                    {answer.summary}
+                  </p>
+                  <p className="mb-1 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                    Rechtliche Grundlage
+                  </p>
+                  <p className="mb-3 text-sm text-ink/70">
+                    {answer.legalBasis}
+                  </p>
+                  <p className="mb-1 font-mono text-[11px] uppercase tracking-wide text-ink/45">
+                    Nächste Schritte
+                  </p>
+                  <ul className="space-y-1.5">
+                    {answer.nextSteps.map((step) => (
+                      <li
+                        key={step}
+                        className="flex items-start gap-2 text-sm text-ink/70"
+                      >
+                        <CheckCircle2
+                          size={14}
+                          className="mt-0.5 shrink-0 text-signal-green"
+                        />
+                        {step}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-          )}
-        </section>
-      </div>
+          </div>
 
-      <footer className="mt-16 border-t border-line pt-6 text-xs text-ink/50">
-        <p>
-          CivicAI ersetzt keine Rechtsberatung. Bei Unsicherheit wenden Sie
-          sich an eine unabhängige Beratungsstelle.
-        </p>
-      </footer>
-    </main>
+          <footer className="border-t border-border pb-10 pt-6 text-xs text-ink/45">
+            CivicAI ersetzt keine Rechtsberatung. Bei Unsicherheit wenden
+            Sie sich an eine unabhängige Beratungsstelle.
+          </footer>
+        </div>
+      </div>
+    </div>
   );
 }

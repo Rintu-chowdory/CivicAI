@@ -7,6 +7,12 @@ import {
   CheckCircle2,
   FileText,
   Sparkles,
+  Calculator,
+  Building2,
+  Euro,
+  Home as HomeIcon,
+  Lock,
+  ArrowUpRight,
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import TrustBadge, { type Confidence } from "@/components/TrustBadge";
@@ -431,6 +437,109 @@ export default function Home() {
                 </div>
               )}
             </div>
+          </div>
+
+
+          {/* Tools — neue Helfer für den Alltag */}
+          <section id="tools" className="mb-4 scroll-mt-8">
+            <p className="mb-1 font-mono text-xs uppercase tracking-wide text-seal">
+              03 · Weitere Tools
+            </p>
+            <h2 className="mb-1 text-2xl font-bold">
+              Praktische Helfer für Ihren Alltag
+            </h2>
+            <p className="mb-5 text-sm text-ink/60">
+              Weitere Werkzeuge, die Ihnen helfen, Fristen zu berechnen,
+              die richtige Behörde zu finden und Kosten einzuschätzen.
+            </p>
+          </section>
+
+          <div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <a
+              href="/fristen-rechner"
+              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+            >
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <Calculator size={18} />
+              </div>
+              <p className="mb-1 text-sm font-semibold">Fristen-Rechner</p>
+              <p className="mb-2 text-xs leading-relaxed text-ink/55">
+                Berechnet rechtliche Fristen für Widerspruch, Klage und
+                Wiedereinsetzung — inklusive Wochenende- und Feiertagsregelung.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
+                Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </a>
+
+            <a
+              href="/behorden-finder"
+              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+            >
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <Building2 size={18} />
+              </div>
+              <p className="mb-1 text-sm font-semibold">Behörden-Finder</p>
+              <p className="mb-2 text-xs leading-relaxed text-ink/55">
+                Findet die zuständige Behörde für Ihr Anliegen — von
+                Jobcenter bis Finanzamt, mit Kontakthinweisen und
+                benötigten Dokumenten.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
+                Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </a>
+
+            <a
+              href="/kostenrechner"
+              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+            >
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <Euro size={18} />
+              </div>
+              <p className="mb-1 text-sm font-semibold">Kostenrechner</p>
+              <p className="mb-2 text-xs leading-relaxed text-ink/55">
+                Schätzt Gerichtskosten und Anwaltsgebühren basierend
+                auf dem Streitwert — nach GKG und RVG.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
+                Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </a>
+
+            <a
+              href="/mietrechts-checker"
+              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+            >
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <HomeIcon size={18} />
+              </div>
+              <p className="mb-1 text-sm font-semibold">Mietrechts-Checker</p>
+              <p className="mb-2 text-xs leading-relaxed text-ink/55">
+                Prüft häufige Mietrechts-Themen: Mieterhöhung, Kaution,
+                Schönheitsreparaturen, Eigenbedarf und Nebenkosten.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
+                Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </a>
+
+            <a
+              href="/datenschutz"
+              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+            >
+              <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
+                <Lock size={18} />
+              </div>
+              <p className="mb-1 text-sm font-semibold">Datenschutz</p>
+              <p className="mb-2 text-xs leading-relaxed text-ink/55">
+                DSGVO-konforme Datenschutzerklärung mit allen Rechten
+                nach Art. 15–21 DSGVO und Beschwerderecht.
+              </p>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
+                Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </a>
           </div>
 
           <footer className="border-t border-border pb-10 pt-6 text-xs text-ink/45">

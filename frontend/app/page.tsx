@@ -13,6 +13,12 @@ import {
   Home as HomeIcon,
   Lock,
   ArrowUpRight,
+  Shield,
+  Scale,
+  Activity,
+  Globe,
+  Cpu,
+  Lock,
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import TrustBadge, { type Confidence } from "@/components/TrustBadge";
@@ -137,11 +143,16 @@ export default function Home() {
           {/* Hero */}
           <div className="mb-10 grid gap-6 lg:grid-cols-[1fr_280px]">
             <div>
+              <div className="perspective-1500 mb-4">
+                <div className="float-3d inline-flex h-12 w-12 items-center justify-center rounded-xl bg-seal-light">
+                  <Scale size={24} className="text-seal" />
+                </div>
+              </div>
               <p className="mb-3 font-mono text-xs uppercase tracking-[0.14em] text-seal">
-                CivicAI · Klarheit im Alltag
+                CivicAI · Rechtssicherheit für alle Bürger
               </p>
               <h1 className="mb-4 max-w-xl text-4xl font-bold leading-[1.12] tracking-tight sm:text-[2.75rem]">
-                Behörden verstehen. Rechte kennen. Sicher handeln.
+                Behörden verstehen.<br />Rechte kennen.<br />Sicher handeln.
               </h1>
               <p className="mb-6 max-w-md text-sm leading-relaxed text-ink/65">
                 CivicAI hilft Ihnen, offizielle Schreiben verständlich
@@ -151,7 +162,7 @@ export default function Home() {
               <div className="flex flex-wrap gap-3">
                 <a
                   href="#brief-analysieren"
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-seal px-4 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  className="btn-3d inline-flex items-center gap-1.5 rounded-lg bg-seal px-4 py-2.5 text-sm font-medium text-white"
                 >
                   Brief analysieren
                   <ArrowRight size={15} />
@@ -189,16 +200,50 @@ export default function Home() {
           </div>
 
           {/* Stats */}
+          {/* Stats — 3D depth cards */}
           <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {STATS.map((s) => (
+            {STATS.map((s, i) => (
               <div
                 key={s.label}
-                className="rounded-xl border border-border bg-surface p-5 shadow-card"
+                className={`stat-3d depth-shadow rounded-xl border border-border bg-surface p-5 reveal-3d`}
+                style={{ animationDelay: `${i * 0.1}s` }}
               >
-                <p className="text-3xl font-bold">{s.value}</p>
+                <p className="text-3xl font-bold tracking-tight">{s.value}</p>
                 <p className="text-sm text-ink/55">{s.label}</p>
+                <div className="mt-2 h-0.5 w-8 rounded-full bg-seal/20" />
               </div>
             ))}
+          </div>
+
+          {/* 3D System Status Bar */}
+          <div className="perspective-1000 mb-12">
+            <div className="tilt-card depth-shadow rounded-xl border border-border bg-sidebar p-5 text-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="orb-3d flex h-10 w-10 items-center justify-center rounded-lg bg-seal">
+                    <Shield size={18} />
+                  </div>
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-wide text-white/50">System Status</p>
+                    <p className="text-sm font-semibold">Alle Systeme betriebsbereit</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-signal-green" />
+                    <span className="font-mono text-xs text-white/60">Backend: Demo-Modus</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Cpu size={14} className="text-white/40 gear-3d" />
+                    <span className="font-mono text-xs text-white/60">RAG-Engine: bereit</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Lock size={14} className="text-white/40" />
+                    <span className="font-mono text-xs text-white/60">DSGVO: aktiv</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Brief analysieren */}
@@ -440,24 +485,24 @@ export default function Home() {
           </div>
 
 
-          {/* Tools — neue Helfer für den Alltag */}
+          {/* Tools — rechtliche Helfer für Bürger */}
           <section id="tools" className="mb-4 scroll-mt-8">
             <p className="mb-1 font-mono text-xs uppercase tracking-wide text-seal">
-              03 · Weitere Tools
+              03 · Rechtliche Werkzeuge
             </p>
-            <h2 className="mb-1 text-2xl font-bold">
-              Praktische Helfer für Ihren Alltag
+            <h2 className="mb-1 text-2xl font-bold accent-line pb-2">
+              Werkzeuge für rechtssichere Entscheidungen
             </h2>
             <p className="mb-5 text-sm text-ink/60">
-              Weitere Werkzeuge, die Ihnen helfen, Fristen zu berechnen,
-              die richtige Behörde zu finden und Kosten einzuschätzen.
+              Geprüft nach deutschen Gesetzen: VwGO, BGB, SGG, AO, GKG, RVG und DSGVO.
+              Jedes Tool nennt die Rechtsgrundlage und die nächsten Schritte.
             </p>
           </section>
 
           <div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <a
               href="/fristen-rechner"
-              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+              className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
                 <Calculator size={18} />
@@ -474,7 +519,7 @@ export default function Home() {
 
             <a
               href="/behorden-finder"
-              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+              className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
                 <Building2 size={18} />
@@ -492,7 +537,7 @@ export default function Home() {
 
             <a
               href="/kostenrechner"
-              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+              className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
                 <Euro size={18} />
@@ -509,7 +554,7 @@ export default function Home() {
 
             <a
               href="/mietrechts-checker"
-              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+              className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
                 <HomeIcon size={18} />
@@ -526,7 +571,7 @@ export default function Home() {
 
             <a
               href="/datenschutz"
-              className="group rounded-xl border border-border bg-surface p-5 shadow-card transition-all hover:border-seal/30 hover:shadow-lg"
+              className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
                 <Lock size={18} />
@@ -542,9 +587,29 @@ export default function Home() {
             </a>
           </div>
 
-          <footer className="border-t border-border pb-10 pt-6 text-xs text-ink/45">
-            CivicAI ersetzt keine Rechtsberatung. Bei Unsicherheit wenden
-            Sie sich an eine unabhängige Beratungsstelle.
+          <footer className="border-t border-border pb-10 pt-6">
+            <div className="mb-4 flex items-center gap-2">
+              <Activity size={14} className="text-seal/40" />
+              <p className="font-mono text-[11px] uppercase tracking-wide text-ink/40">
+                Vertrauensschutz
+              </p>
+            </div>
+            <p className="mb-2 text-xs leading-relaxed text-ink/55">
+              CivicAI ersetzt keine Rechtsberatung (§ 2 RDG). Alle Antworten
+              dienen der ersten Orientierung und basieren auf öffentlich
+              zugänglichen Gesetzen und Verordnungen. Bei rechtlichen
+              Schritten wenden Sie sich an eine Rechtsanwältin oder einen
+              Rechtsanwalt oder an eine unabhängige Beratungsstelle.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-wide text-ink/35">
+              <span>DSGVO-konform</span>
+              <span>·</span>
+              <span>§ 2 RDG</span>
+              <span>·</span>
+              <span>Open Source</span>
+              <span>·</span>
+              <span>GitHub Pages</span>
+            </div>
           </footer>
         </div>
       </div>

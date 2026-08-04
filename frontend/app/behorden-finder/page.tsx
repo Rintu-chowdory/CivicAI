@@ -484,7 +484,7 @@ export default function BehordenFinderPage() {
 
   return (
     <div className="min-h-screen bg-canvas">
-      <Sidebar activePage="behorden-finder" />
+      <Sidebar />
 
       <div className="lg:pl-60">
         <div className="mx-auto max-w-6xl px-6 py-10 sm:px-10">

@@ -19,6 +19,7 @@ import {
   Globe,
   Cpu,
 } from "lucide-react";
+import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import TrustBadge, { type Confidence } from "@/components/TrustBadge";
 
@@ -499,8 +500,7 @@ export default function Home() {
           </section>
 
           <div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <a
-              href="/fristen-rechner"
+            <Link href="/fristen-rechner"
               className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
@@ -514,10 +514,9 @@ export default function Home() {
               <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
                 Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
               </span>
-            </a>
+            </Link>
 
-            <a
-              href="/behorden-finder"
+            <Link href="/behorden-finder"
               className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
@@ -532,10 +531,9 @@ export default function Home() {
               <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
                 Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
               </span>
-            </a>
+            </Link>
 
-            <a
-              href="/kostenrechner"
+            <Link href="/kostenrechner"
               className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
@@ -549,10 +547,9 @@ export default function Home() {
               <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
                 Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
               </span>
-            </a>
+            </Link>
 
-            <a
-              href="/mietrechts-checker"
+            <Link href="/mietrechts-checker"
               className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
@@ -566,10 +563,9 @@ export default function Home() {
               <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
                 Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
               </span>
-            </a>
+            </Link>
 
-            <a
-              href="/datenschutz"
+            <Link href="/datenschutz"
               className="tilt-card group rounded-xl border border-border bg-surface p-5 depth-shadow"
             >
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-seal-light text-seal">
@@ -583,7 +579,7 @@ export default function Home() {
               <span className="inline-flex items-center gap-1 text-xs font-medium text-seal">
                 Öffnen <ArrowUpRight size={12} className="transition-transform group-hover:translate-x-0.5" />
               </span>
-            </a>
+            </Link>
           </div>
 
           <footer className="border-t border-border pb-10 pt-6">

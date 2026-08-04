@@ -14,6 +14,10 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/favicon.svg",
+  },
+
   title: "CivicAI — Behörden verstehen. Rechte kennen. Sicher handeln.",
   description:
     "KI für faire, verständliche und transparente Behördenkommunikation.",

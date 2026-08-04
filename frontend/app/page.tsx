@@ -18,7 +18,6 @@ import {
   Activity,
   Globe,
   Cpu,
-  Lock,
 } from "lucide-react";
 import Sidebar from "@/components/Sidebar";
 import TrustBadge, { type Confidence } from "@/components/TrustBadge";

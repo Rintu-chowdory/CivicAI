@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(27, 36, 48, 0.02),
+      rgba(27, 36, 48, 0) 140px
+    ),
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      rgba(27, 36, 48, 0.035) 28px
+    );
+}
+
+.font-display {
+  font-family: var(--font-display), serif;
+}
+
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+*:focus-visible {
+  outline: 2px solid #1f3a5f;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
